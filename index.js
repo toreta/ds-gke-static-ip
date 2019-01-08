@@ -1,7 +1,7 @@
 require('dotenv').config()
 const _ = require('underscore')
 const { find } = require('obj-case')
-const debug = require('debug')('gke-static-ip')
+const debug = console.log.bind(console)
 const Compute = require('@google-cloud/compute')
 const compute = new Compute({ projectId: process.env.PROJECT_ID })
 
@@ -58,7 +58,7 @@ function addAccessConfig (instance, json = {}, networkInterface = 'nic0') {
   })
 }
 
-async function main () {
+exports.main = async function main () {
   const instances = await getInstances(process.env.INSTANCE_PREFIX)
   const { staticIPs, reservedIPs } = await getStaticIPs(process.env.IP_PREFIX)
   debug('Found %d reserved IP.', reservedIPs.size)
@@ -81,5 +81,3 @@ async function main () {
     }
   }
 }
-
-main().catch(console.error.bind(console))

@@ -1,0 +1,11 @@
+steps:
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: [
+      'functions', 'deploy', 'gke-static-ip',
+      '--region', 'asia-northeast1',
+      '--runtime', 'nodejs8',
+      '--trigger-topic', 'gke-static-ip',
+      '--entry-point', 'main',
+      '--set-env-vars', 'PROJECT_ID=$PROJECT_ID',
+      '--timeout', '540s'
+    ]
